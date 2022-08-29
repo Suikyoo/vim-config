@@ -11,8 +11,6 @@ call plug#end()
 
 let mapleader = ","
 
-nnoremap <leader>v :tabnew $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
 
 set mouse=a 
 set number 
@@ -35,10 +33,23 @@ noremap! <C-H> <C-w>
 nnoremap <s-l> gt<CR>
 nnoremap <s-h> gT<CR>
 nnoremap <a-m> :tabnew<SPACE>
-nnoremap <F5> :w<CR>:!python %<CR>
+nnoremap <F5> :w<CR>:!py "%"<CR>
+
+nnoremap <leader>ev :tabnew $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>o o<ESC>k
+nnoremap <leader><s-o> O<ESC>j
+nnoremap <leader>cd :cd %:p:h<cr>
 
 inoremap jk <ESC>
 inoremap <F5> <ESC>:w<CR>:!py %<CR>
+
+" changes the nature of pasting while in visual mode. Pre-copies selection in
+" --a-- named register instead of the unnamed register
+vnoremap p "adP
+vnoremap P p
+vnoremap <leader>" c"<ESC>pa"<ESC>
+vnoremap <leader>' c'<ESC>pa'<ESC>
 
 let g:netrw_banner = 0
 let g:netrw_altfile = 1

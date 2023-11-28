@@ -1,18 +1,18 @@
 " Specify a directory for plugins call 
-call plug#begin('~/.vim/plugged') 
+call plug#begin("~/.vim/plugged") 
 
-Plug 'christoomey/vim-tmux-navigator' 
 Plug 'Yggdroot/indentLine' 
 Plug 'itchyny/lightline.vim' 
 Plug 'rafi/awesome-vim-colorschemes' 
-Plug 'sonph/onehalf', { 'rtp': 'vim' } 
 Plug 'mengelbrecht/lightline-bufferline'
+Plug 'wojciechkepka/vim-github-dark'
 
 call plug#end() 
 
 let mapleader = ","
 let localleader = ","
 
+syntax on
 
 set mouse=a 
 set number 
@@ -29,12 +29,15 @@ set history=5000
 set clipboard=unnamedplus
 
 echom ">^.^<"
-noremap! <C-H> <C-w>
 
+noremap! <C-H> <C-w>
 nnoremap <s-l> :bn<CR>
 nnoremap <s-h> :bN<CR>
 nnoremap <a-m> :e 
-nnoremap <F5> :w<CR>:!py "%"<CR>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -44,8 +47,8 @@ nnoremap <leader>cd :cd %:p:h<cr>
 nnoremap <leader>q :bd %<cr>
 nnoremap <leader>f :args *.py<cr>
 
+
 inoremap jk <ESC>
-inoremap <F5> <ESC>:w<CR>:!py %<CR>
 
 " changes the nature of pasting while in visual mode. Pre-copies selection in
 " --a-- named register instead of the unnamed register
@@ -54,6 +57,27 @@ vnoremap P p
 vnoremap <leader>" c"<ESC>pa"<ESC>
 vnoremap <leader>' c'<ESC>pa'<ESC>
 
+
+" python config
+
+" for py-- way of executing
+autocmd FileType python nnoremap <F4> :w<CR>:term py "%"<CR>
+autocmd FileType python inoremap <F4> <ESC>:w<CR>:term py %<CR>
+
+" for the normal way of executing a program
+autocmd FileType python nnoremap <F5> :w<CR>:! "%"<CR>
+autocmd FileType python inoremap <F5> <ESC>:w<CR>:! %<CR>
+
+
+" c config
+
+" for sdl compile
+autocmd FileType c  nnoremap <F4> :w<CR>:term gcc -std=c17 % -IC:\Users\judea\SDL2\x86_64-w64-mingw32\include -LC:\Users\judea\SDL2\x86_64-w64-mingw32\lib -Wall -lmingw32 -lSDL2main -lSDL2 -o main<CR>
+autocmd FileType c inoremap  <F4> <ESC>:w<CR>:term gcc -std=c17 % -IC:\Users\judea\SDL2\x86_64-w64-mingw32\include -LC:\Users\judea\SDL2\x86_64-w64-mingw32\lib -Wall -lmingw32 -lSDL2main -lSDL2 -o main<CR>
+>
+" for normal compile
+autocmd FileType c  nnoremap <F5> :w<CR>:term gcc -o %:r % && %:r.exe<CR>
+autocmd FileType c inoremap  <F5> <ESC>:w<CR>:term gcc -o %:r % && %:r.exe<CR>
 
 let g:netrw_banner = 0
 let g:netrw_liststyle = 0
@@ -67,12 +91,15 @@ if (empty($TMUX))
     "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   endif
-
-  if (has("termguicolors"))
-    set termguicolors
-  endif
 endif
 
+
+set termguicolors
+
+filetype plugin on
+filetype plugin indent on
+
+set nocompatible
 set conceallevel=0
 set cindent
 set updatetime=750
@@ -80,10 +107,14 @@ set signcolumn=yes
 set showtabline=2
 
 set laststatus=2
+set linespace=3
+set cursorline
 
-colorscheme onehalfdark 
+colorscheme ghdark
+let g:gh_color = "soft"
 
-let g:lightline = {'colorscheme' : 'onehalfdark'}
+
+let g:lightline = {'colorscheme' : 'ghdark'}
 let g:lightline#bufferline#enable_nerdfont = 1
 
 let g:lightline.component_expand = {'buffers' : 'lightline#bufferline#buffers'}
